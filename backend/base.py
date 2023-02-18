@@ -1,5 +1,5 @@
 from flask import Flask, request
-from backend.caption_recommendation import recommend_land
+from caption_recommendation import recommend_land
 
 
 app = Flask(__name__)
