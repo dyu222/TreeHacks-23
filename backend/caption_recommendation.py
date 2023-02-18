@@ -45,7 +45,7 @@ def recommend_land(user_input, user_min_price, user_max_price, user_min_acres, u
         text = " ".join(words)
         return text
     
-    df = pd.read_csv('listings2.csv')
+    df = pd.read_csv('backend\listings2.csv')
     df.drop(['APN', 'url', 'availibility', 'description', 'coords', 'taxes'],  axis=1)
     df = df.head(4) # CHANGE THIS LATER
 
@@ -92,3 +92,6 @@ def recommend_land(user_input, user_min_price, user_max_price, user_min_acres, u
     filtered_df = filtered_df.sort_values(by=['cosine_similarity'], ascending=False)
     
     return filtered_df[0]
+
+
+recommend_land(10000, 15000, 1, 2, "i want grassy land with water nearby")
