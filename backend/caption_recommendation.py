@@ -38,7 +38,7 @@ def recommend_land(user_input, user_min_price, user_max_price, user_min_acres, u
         return image_desc
 
     def clean(text):
-        text = text.lower()
+        text.lower()
         text = ' '.join([word for word in text.split() if word not in stopwords.words("english")])
         lemmatizer = WordNetLemmatizer()
         words = [word for word in text.split() if word not in stopwords.words("english")]
