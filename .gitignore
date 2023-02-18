@@ -2,3 +2,5 @@ node_modules
 .DS_Store
 dist
 .env.local
+backend/__pycache__/base.cpython-310.pyc
+backend/__pycache__/caption_recommendation.cpython-310.pyc
