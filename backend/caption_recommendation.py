@@ -38,7 +38,7 @@ def recommend_land(user_input, user_min_price, user_max_price, user_min_acres, u
         return image_desc
 
     def clean(text):
-        text.lower()
+        text = text.lower()
         text = ' '.join([word for word in text.split() if word not in stopwords.words("english")])
         lemmatizer = WordNetLemmatizer()
         words = [word for word in text.split() if word not in stopwords.words("english")]
@@ -73,7 +73,7 @@ def recommend_land(user_input, user_min_price, user_max_price, user_min_acres, u
     df['captions'] = df.apply(image_caption, axis=1)
 
     # clean captions
-    df['captions'] = df['captions'].apply(lambda x: clean(x))
+    df['captions'] = df['captions'].apply(lambda x: clean(x) if x is not None else x)
     image_captions = df['captions']
 
     # recommendation with captions vs descriptions
