@@ -1,6 +1,20 @@
 from flask import Flask, request, jsonify
 from caption_recommendation import recommend_land
 
+import re
+import pandas as pd
+import numpy as np
+from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor, AutoTokenizer
+import torch
+from PIL import Image
+import requests
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+import sklearn
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 app = Flask(__name__)
 
