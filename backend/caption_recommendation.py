@@ -12,29 +12,32 @@ import sklearn
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# utils
-def chop_text(s):
-    return re.sub(pattern, '', s)
+   
+# loading/cleaning
+def recommend_land(user_input, user_min_price, user_max_price, user_min_acres, user_max_acres):
+    
+    # utils
+    def chop_text(s):
+        return re.sub(pattern, '', s)
+    
+    def predict(image,max_length=128, num_beams=4):
+        img = Image.open(image)
+        if img.mode != 'RGB':
+            img = img.convert(mode="RGB")
+        pixel_values = feature_extractor(images=[img], return_tensors="pt").pixel_values
+        pixel_values = pixel_values.to(device)
+        clean_text = lambda x: x.replace('<|endoftext|>','').split('\n')[0]
+        output_ids = model.generate(pixel_values, num_beams=num_beams, max_length=max_length)
+        preds = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+        
+    def image_caption(row):
+        response = requests.get(row['images'])
+        with open('temp.jpg', 'wb') as f:
+            f.write(response.content)  
+        image_desc = predict('temp.jpg', 128, 4)
+        return image_desc
 
-
-def predict(image,max_length=128, num_beams=4):
-  img = Image.open(image)
-  if img.mode != 'RGB':
-      img = img.convert(mode="RGB")
-  pixel_values = feature_extractor(images=[img], return_tensors="pt").pixel_values
-  pixel_values = pixel_values.to(device)
-  clean_text = lambda x: x.replace('<|endoftext|>','').split('\n')[0]
-  output_ids = model.generate(pixel_values, num_beams=num_beams, max_length=max_length)
-  preds = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-  
-def image_caption(row):
-    response = requests.get(row['images'])
-    with open('temp.jpg', 'wb') as f:
-        f.write(response.content)  
-    image_desc = predict('temp.jpg', 128, 4)
-    return image_desc
-
-def clean(text):
+    def clean(text):
         text = text.lower()
         text = ' '.join([word for word in text.split() if word not in stopwords.words("english")])
         lemmatizer = WordNetLemmatizer()
@@ -42,9 +45,6 @@ def clean(text):
         text = " ".join(words)
         return text
     
-# loading/cleaning
-
-def recommend_land(user_input, user_min_price, user_max_price, user_min_acres, user_max_acres):
     df = pd.read_csv('listings2.csv')
     df.drop(['APN', 'url', 'availibility', 'description', 'coords', 'taxes'],  axis=1)
     df = df.head(4) # CHANGE THIS LATER
