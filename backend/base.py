@@ -6,11 +6,11 @@ app = Flask(__name__)
 
 @app.route('/recommendation', methods=['POST'])
 def recommendation():
-    user_input = request.form.get('input')
-    user_min_price = float(request.form.get('min_price'))
-    user_max_price = float(request.form.get('max_price'))
-    user_min_acres = float(request.form.get('min_acres'))
-    user_max_acres = float(request.form.get('max_acres'))
+    user_input = request.json.get('input')
+    user_min_price = float(request.json.get('min_price'))
+    user_max_price = float(request.json.get('max_price'))
+    user_min_acres = float(request.json.get('min_acres'))
+    user_max_acres = float(request.json.get('max_acres'))
 
     result = recommend_land(user_input, user_min_price, user_max_price, user_min_acres, user_max_acres)
 
