@@ -2,10 +2,19 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
+import { useMutation } from '@/convex/_generated/react'
+import { FormEvent } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const sendMessage = useMutation("sendMessage");
+
+  
+  async function handleSendMessage() {
+    await sendMessage("test", "test");
+  }
+
   return (
     <>
       <Head>
@@ -15,6 +24,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+        <button onClick={handleSendMessage}>Send Message</button>
         <div className={styles.description}>
           <p>
             Get started by editing&nbsp;
