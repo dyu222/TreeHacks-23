@@ -1,12 +1,13 @@
 import requests
 
 # Define the endpoint and request parameters
-def create_invoice():
+def create_invoice(request):
     endpoint = 'https://api.checkbook.io/v3/checks'
     headers = {
         'Content-Type': 'application/json',
         'Authorization': 'YOUR_API_KEY'
     }
+    # will want to customize this to our needs
     data = {
         'recipient': 'John Doe',
         'amount': 100.0,
